@@ -2,4 +2,4 @@ Definition, short, simplified, as precise as possible, but the main goal is to c
 
 (image)
 
-[[universe]]
+[[electromagnetism]]

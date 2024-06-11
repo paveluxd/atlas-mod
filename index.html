@@ -9,3 +9,32 @@
     
 </body>
 </html>
+<script>
+    // Array containing filenames of Markdown files
+    const markdownFiles = ['universe.md', 'file2.md', 'file3.md'];
+
+    // Object to store Markdown content
+    const markdownContents = {};
+
+    // Function to fetch and store Markdown content
+    async function fetchMarkdownContent(filename) {
+    try {
+        // Fetch Markdown content
+        const response = await fetch(filename);
+        if (!response.ok) {
+        throw new Error(`Failed to fetch ${filename}`);
+        }
+        const markdownText = await response.text();
+
+        // Store Markdown content in the object
+        markdownContents[filename] = markdownText;
+    } catch (error) {
+        console.error(error);
+    }
+    }
+
+    // Iterate over each filename and fetch content
+    markdownFiles.forEach(filename => {
+    fetchMarkdownContent(filename);
+    });
+</script>
