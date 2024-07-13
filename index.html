@@ -1,40 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+    <body>
+
+
+
+    </body>
+
 </html>
+
 <script>
     // Array containing filenames of Markdown files
-    const markdownFiles = ['universe.md', 'file2.md', 'file3.md'];
+    const markdownFiles = ['orbit', 'optics', 'cosmology'];
 
     // Object to store Markdown content
-    const markdownContents = {};
+    const mdContent = {};
 
     // Function to fetch and store Markdown content
     async function fetchMarkdownContent(filename) {
-    try {
-        // Fetch Markdown content
-        const response = await fetch(filename);
-        if (!response.ok) {
-        throw new Error(`Failed to fetch ${filename}`);
-        }
-        const markdownText = await response.text();
+        try {
+                // Fetch Markdown content
+                const response = await fetch(filename);
 
-        // Store Markdown content in the object
-        markdownContents[filename] = markdownText;
-    } catch (error) {
-        console.error(error);
-    }
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch ${filename}`);
+                }
+
+                const markdownText = await response.text();
+
+                // Store Markdown content in the object
+                mdContent[filename] = markdownText;
+
+            } catch (error) {
+                console.error(error);
+            }
     }
 
-    // Iterate over each filename and fetch content
-    markdownFiles.forEach(filename => {
-    fetchMarkdownContent(filename);
-    });
+    // Function to execute after all fetch operations are resolved
+    function afterAllFetches() {
+        console.log('All fetches complete');
+        console.log(mdContent);
+    }
+
+    // Store the fetch promises in an array
+    const fetchPromises = markdownFiles.map(filename => fetchMarkdownContent('atlas-mod/' + filename + '.md'));
+
+    // Use Promise.all() to wait for all fetch promises to resolve
+    Promise.all(fetchPromises)
+        .then(afterAllFetches)
+        .catch(error => {console.error('One or more fetch operations failed', error);});
+
 </script>
